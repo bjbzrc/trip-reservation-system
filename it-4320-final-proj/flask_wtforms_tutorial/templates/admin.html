@@ -4,10 +4,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='/css/forms.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block body %}
-
-{% endblock %}
-
 {% block content %}
 <div class="formwrapper">
   <div id="button-format">
@@ -20,18 +16,18 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
       {% if seatingChart %}
-      <h1 id="printChart">Printing Seating Chart...</h1>
-      <div>
+      <h3 id="printChart">Printing Seating Chart...</h3>
+      <div class="seating-chart">
         <ul>
           {% for row in seatingChart %}
           <li>{{ row }}</li>
           {% endfor %}
         </ul>
       </div>
-      <p>Total cost: ${{ price }}</p>
+      <p>Total sales: ${{ price }}</p>
       {% endif %}
       {% if incorrectLogin %}
-      <h4>Error: Incorrect Username or Password</h4>
+      <h4 style="color: red;">Error: Incorrect Username or Password</h4>
       {% endif %}
     {% endif %}
     {% endwith %}
