@@ -1,0 +1,3 @@
+Alice, 0, 2, AIlNiFcOeTC1040
+Bob, 0, 1, BIoNbFOTC040
+John, 2, 2, JIoNhFnOTC1040

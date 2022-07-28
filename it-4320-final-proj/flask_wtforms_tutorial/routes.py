@@ -4,7 +4,6 @@ from .forms import *
 import numpy
 
 
-#@app.route("/", methods=['GET', 'POST'])
 @app.route("/", methods=['GET', 'POST'])
 def user_options():
     
@@ -28,8 +27,9 @@ def user_options():
 def admin():
 
     form = AdminLoginForm()
+    incorrectLogin = False
 
-    #get valid admin users
+    # Get valid admin users
     validUser = []
     validPw = []
     try:
@@ -55,13 +55,13 @@ def admin():
     except Exception as e:
         print(e)
 
-    #calculate cost
-    #seat prices
+    # Calculate cost of seat prices
     totalPrices = 0
     costMatrix = [[100, 75, 50, 100] for row in range(12)]
     for seat in reservedSeats:
         totalPrices +=  costMatrix[seat[0]][seat[1]]
 
+    # Generate seating chart with reserved seats
     seatingChart = [['O'] * 4 for row in range(12)]
     for seat in reservedSeats:
         seat1 = int(seat[0])
@@ -77,18 +77,60 @@ def admin():
             userIndex = validUser.index(username)
             if validPw[userIndex] == password:
                 flash(f"Total Sales: {totalPrices}")
-                return redirect(url_for("admin"))
-        else:
-            flash("Username or Password is incorrect.")
-            return redirect(url_for("admin"))
+                price = totalPrices
 
-    return render_template("admin.html", form=form, seatingChart=seatingChart, template="form-template")
+                return render_template("admin.html", form=form, seatingChart=seatingChart,
+                price=price, template="form-template")
+            else:
+                incorrectLogin = True
+                flash("Username or Password is incorrect.")
+
+                return render_template("admin.html", form=form, 
+                incorrectLogin=incorrectLogin, template="form-template")
+        else:
+            incorrectLogin = True
+            flash("Username or Password is incorrect.")
+
+            return render_template("admin.html", form=form, 
+            incorrectLogin=incorrectLogin, template="form-template")
+
+    return render_template("admin.html", form=form, template="form-template")
 
 
 @app.route("/reservations", methods=['GET', 'POST'])
 def reservations():
-
+    posting_data = False
     form = ReservationForm()
 
-    return render_template("reservations.html", form=form, template="form-template")
+    # Mark reserved seats
+    reservedSeats = []
+    try:
+        with open("reservations.txt") as fp:
+            lines = fp.read().splitlines()
+        for line in lines:
+            seat = line.split(',')
+            x = int(seat[1])
+            y = int(seat[2])
+            reservedSeats.append([x, y])
+    except Exception as e:
+        print(e)
 
+    # Map current seating chart
+    seatingChart = [['O'] * 4 for row in range(12)]
+    for seat in reservedSeats:
+        seat1 = int(seat[0])
+        seat2 = int(seat[1])
+        seatingChart[seat1][seat2] = 'X'
+
+    if request.method == "POST" and form.validate_on_submit():
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
+        row_choice = int(request.form["row"])
+        seat_choice = int(request.form["seat"])
+        posting_data = True
+
+        return render_template("reservations.html", form=form, fname=first_name,
+        lname=last_name, row=row_choice, seat=seat_choice, post=posting_data,
+        seatingChart=seatingChart, template="form-template")
+
+    return render_template("reservations.html", form=form, seatingChart=seatingChart, template="form-template")

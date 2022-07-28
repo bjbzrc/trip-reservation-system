@@ -37,7 +37,9 @@ label {
   font-weight: 300;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   padding: 10px 13px;
   margin-bottom: 15px;
   width: -webkit-fill-available;
@@ -141,4 +143,18 @@ i {
 
 .g-recaptcha div {
   margin: auto;
+}
+
+.chart-format {
+  background-color: #ced0d3;
+  padding: 5px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+#button-format {
+  background-color: #ced0d3;
+  padding: 5px;
+  width: 150px;
+  border-radius: 10px;
 }
