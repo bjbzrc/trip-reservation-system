@@ -122,6 +122,8 @@ def reservations():
         seat2 = int(seat[1])
         seatingChart[seat1][seat2] = 'X'
 
+    confirmationCode = generate_code(request.form['first_name'])
+
     if request.method == "POST" and form.validate_on_submit():
         first_name = request.form["first_name"]
         last_name = request.form["last_name"]
@@ -131,6 +133,26 @@ def reservations():
 
         return render_template("reservations.html", form=form, fname=first_name,
         lname=last_name, row=row_choice, seat=seat_choice, post=posting_data,
-        seatingChart=seatingChart, template="form-template")
+        seatingChart=seatingChart, confirmationCode=confirmationCode, template="form-template")
 
     return render_template("reservations.html", form=form, seatingChart=seatingChart, template="form-template")
+
+def generate_code(first):
+
+    #Pre: first is a first name string variable
+    #Post: returns a randomly generated passcode
+    course = 'INFOTC4320'
+    combined = ''
+    counter = 0
+    if len(course) > len(first):
+        endcounter = len(course)
+    else:
+        endcounter = len(first)
+    
+    while counter < endcounter:
+        if counter < len(first):
+            combined = combined + first[counter]
+        if counter < len(course):
+            combined = combined + course[counter]
+        counter += 1
+    return combined
