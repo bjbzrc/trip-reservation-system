@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bus-trip-4320
+    container_name: bus-trip-4320-1
     ports:
       - "5002:5000"
     volumes:

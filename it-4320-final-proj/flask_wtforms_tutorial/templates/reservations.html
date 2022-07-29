@@ -13,9 +13,16 @@
   <h2 class="title">Reserve Your Seat</h2>
 
   {% if post %}
-  <h1>Your confirmation code: {{ confirmationCode }}</h1>
   <h4>{{ fname }}, you have successfully booked row {{ row }}, seat {{ seat }}!</h4>
   {% endif %}
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for msg in messages %}
+      <span id="reserve-message">{{ msg }}</span>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
   <h3>Seating Chart</h3>
 
