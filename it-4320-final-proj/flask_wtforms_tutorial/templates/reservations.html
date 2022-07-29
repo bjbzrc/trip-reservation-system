@@ -1,7 +1,7 @@
 {% extends 'layout.jinja2' %}
 
 {% block styles %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/forms.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block content %}
@@ -13,6 +13,7 @@
   <h2 class="title">Reserve Your Seat</h2>
 
   {% if post %}
+  <h1>Your confirmation code: {{ confirmationCode }}</h1>
   <h4>{{ fname }}, you have successfully booked row {{ row }}, seat {{ seat }}!</h4>
   {% endif %}
 
