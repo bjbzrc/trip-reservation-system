@@ -1,3 +1,4 @@
+from click import confirm
 from flask import current_app as app
 from flask import redirect, render_template, url_for, request, flash
 from .forms import *
@@ -130,6 +131,13 @@ def reservations():
         row_choice = int(request.form["row"])
         seat_choice = int(request.form["seat"])
         posting_data = True
+
+        if seatingChart[row_choice][seat_choice] == "X":
+            flash("Seat is taken!")
+        if seatingChart[row_choice][seat_choice] == "O":
+            with open("reservations.txt", "a") as fp:
+                fp.write(f"{first_name}, {row_choice}, {seat_choice}, {confirmationCode}\n")
+            flash(f"{first_name}, your seat have been reserved! Your confirmation code is: {confirmationCode}.")
 
         return render_template("reservations.html", form=form, fname=first_name,
         lname=last_name, row=row_choice, seat=seat_choice, post=posting_data,
