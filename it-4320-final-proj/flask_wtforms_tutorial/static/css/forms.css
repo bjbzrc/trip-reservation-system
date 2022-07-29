@@ -150,3 +150,6 @@ i {
   border-radius: 10px;
 }
 
+.error-message {
+  color: red;
+}
